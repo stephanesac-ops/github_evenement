@@ -1,26 +1,31 @@
 name: Control Push
-on: push
+
+on:
+  push:
+
 jobs:
   qa:
     name: Check tests
     runs-on: ubuntu-20.04
+
     steps:
-      - name: Checkout on master
+      - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Set up Python
-        uses: actions/setup-python@master
+        uses: actions/setup-python@v5
         with:
           python-version: "3.x"
 
       - name: Install pytest and flake8
         run: |
-          pip install pytest
-          pip install flake8
+          python -m pip install --upgrade pip
+          pip install pytest flake8
 
       - name: Run tests
         run: |
           pytest
 
       - name: Run flake8
-        uses: py-actions/flake8@v2
+        run: |
+          flake8 .
